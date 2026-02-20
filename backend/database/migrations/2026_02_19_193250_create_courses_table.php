@@ -13,7 +13,16 @@ return new class extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('title'); 
+            $table->string('slug')->unique(); 
+            $table->text('description')->nullable(); 
+            $table->string('category')->nullable(); 
+            $table->enum('status', ['draft', 'published'])->default('draft'); 
+            $table->timestamp('published_at')->nullable(); 
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); 
+             $table->string('thumbnail_path')->nullable(); 
+             $table->timestamps(); 
+              $table->softDeletes(); 
         });
     }
 
