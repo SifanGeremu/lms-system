@@ -7,4 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Course extends Model
 {
     //
+    protected $fillable = [
+        'title',
+        'slug',
+        'description',
+        'category',
+        'status',
+        'published_at',
+        'user_id',
+        'thumbnail_path',
+    ];
 }
