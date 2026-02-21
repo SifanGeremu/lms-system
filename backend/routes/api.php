@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\CourseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisterController;
@@ -19,7 +19,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', LogoutController::class);
     Route::put('/profile', UpdateProfileController::class);
     Route::patch('/profile/password',UpdatePasswordController::class);
+    Route::get('/courses/my-courses',CourseController::class);
 });
-
+Route::get('/courses',CourseController::class);
+Route::get('/courses/{slug}',CourseController::class);
 Route::post('/register',RegisterController::class);
 Route::post('/login',LoginController::class);
