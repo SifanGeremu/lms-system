@@ -19,6 +19,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', LogoutController::class);
     Route::put('/profile', UpdateProfileController::class);
     Route::patch('/profile/password',UpdatePasswordController::class);
+    Route::post('/courses',CourseController::class);
     Route::get('/courses/my-courses',CourseController::class);
 });
 Route::get('/courses',CourseController::class);
