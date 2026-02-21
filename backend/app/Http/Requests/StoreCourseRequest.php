@@ -27,8 +27,6 @@ class StoreCourseRequest extends FormRequest
         'slug' => 'required|string|unique:courses,slug|max:255',
         'description' => 'nullable|string',
         'category' => 'required|exists:categories,id',
-        'status' => 'required|in:draft,published',
-        'published_at' => 'nullable|date',
         'thumbnail' => 'nullable|image|max:2048',
 
         ];
