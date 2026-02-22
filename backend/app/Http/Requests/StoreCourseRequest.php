@@ -11,7 +11,9 @@ class StoreCourseRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        $user = $this->user();
+
+        return $user && ($user->hasRole('admin') || $user->hasRole('instructor'));
     }
 
     /**
@@ -22,13 +24,11 @@ class StoreCourseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
-        'title' => 'required|string|max:255',
-        'slug' => 'required|string|unique:courses,slug|max:255',
-        'description' => 'nullable|string',
-        'category' => 'required|exists:categories,id',
-        'thumbnail' => 'nullable|image|max:2048',
-
+            'title' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+            'slug' => ['required', 'string', 'max:255', 'unique:courses,slug'],
+            'thumbnail' => ['nullable', 'string', 'max:2048'],
+            'category_id' => ['required', 'integer', 'exists:categories,id'],
         ];
     }
 }
