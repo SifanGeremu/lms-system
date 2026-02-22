@@ -57,3 +57,40 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Course API (Phase 3)
+
+All endpoints are under `/api`.
+
+### Public
+
+- `GET /courses`
+  - Lists published courses.
+  - Query params:
+    - `search` (optional): title/description search.
+    - `category` (optional): category id or category slug.
+    - `per_page` (optional): pagination size (default `10`, max `50`).
+- `GET /courses/{slug}`
+  - Returns public course overview by slug.
+
+### Authenticated (`auth:sanctum`)
+
+- `GET /my-courses`
+  - Lists courses where the current user is enrolled.
+
+### Instructor/Admin (`auth:sanctum` + `role:instructor|admin`)
+
+- `POST /courses`
+  - Creates a draft course.
+  - Body: `title`, `description`, `slug`, `thumbnail`, `category_id`.
+- `GET /courses/my-drafts`
+  - Lists current instructor's unpublished courses.
+- `GET /courses/{id}/edit`
+  - Returns editable course payload.
+- `PUT /courses/{id}`
+  - Updates course details.
+  - Body: `title`, `description`, `slug`, `thumbnail`, `category_id`.
+- `DELETE /courses/{id}`
+  - Soft-deletes a course.
+- `PATCH /courses/{id}/publish`
+  - Toggles draft/published using `published_at`.
