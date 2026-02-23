@@ -3,6 +3,8 @@
 A full-stack LMS built with **Laravel, React, and TypeScript** that models real education workflows: public discovery, gated learning, and role-based authoring.
 
 This project focuses on clean API design, structured data flow, and a frontend that reflects backend permissions rather than duplicating logic.
+screenshots/
+   showcase2.jpg
 
 ## What this project demonstrates
 
