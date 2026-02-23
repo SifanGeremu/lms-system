@@ -1,11 +1,10 @@
+
 # Learning Management System
 
 A full-stack LMS built with **Laravel, React, and TypeScript** that models real education workflows: public discovery, gated learning, and role-based authoring.
 
 This project focuses on clean API design, structured data flow, and a frontend that reflects backend permissions rather than duplicating logic.
-screenshots/
-   showcase2.jpg
-
+![photo_2026-02-23_22-56-32](https://github.com/user-attachments/assets/b8dab3cb-fbdd-446e-a06f-7f0b5b09dcb3)
 ## What this project demonstrates
 
 * Token-based authentication with **Laravel Sanctum**
