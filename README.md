@@ -1,53 +1,71 @@
 # Learning Management System
 
-A modern full-stack LMS built with **Laravel + React + TypeScript**, focused on clean role-based workflows for students, instructors, and admins.
+A full-stack LMS built with **Laravel, React, and TypeScript** that models real education workflows: public discovery, gated learning, and role-based authoring.
 
-## Why this project
+This project focuses on clean API design, structured data flow, and a frontend that reflects backend permissions rather than duplicating logic.
 
-This app demonstrates how to build a production-style education platform with:
+## What this project demonstrates
 
-- Real authentication and role-based access
-- Public catalog + protected learning journeys
-- Instructor content management (draft to publish)
-- Structured backend APIs and typed frontend integration
+* Token-based authentication with **Laravel Sanctum**
+* Role and permission handling using **Spatie Laravel Permission**
+* Public course browsing with protected enrollment paths
+* Instructor draft → publish workflow
+* Modular course structure (courses → modules → lessons)
+* Progress tracking at the lesson level
+* Typed API consumption on the React side
+* Clear separation between public, learner, and authoring areas
 
-It is designed to be portfolio-ready and easy to extend.
+The goal was to build something that feels closer to a real product than a demo CRUD.
 
-## Features
+---
 
-- Authentication (register, login, logout) with Laravel Sanctum
-- Role-aware UX (`admin`, `instructor`, `student`)
-- Landing page + public course catalog
-- Course overview and enrollment flow
-- My Courses view for learners
-- Instructor/Admin draft workspace
-- Course creation/edit/publish
-- Module and lesson management
-- Lesson completion + enrollment progress tracking
-- Profile page with role-aware actions
+## Core user journeys
 
-## Tech Stack
+**Visitor**
+
+* Browse course catalog
+* View course details
+
+**Student**
+
+* Enroll in courses
+* Track lesson completion
+* View personal learning dashboard
+
+**Instructor / Admin**
+
+* Create and manage courses
+* Organize modules and lessons
+* Publish when ready
+
+Permissions are enforced server-side and reflected in the UI.
+
+---
+
+## Tech stack
 
 ### Backend
 
-- Laravel 12
-- PHP 8.2+
-- Laravel Sanctum
-- Spatie Laravel Permission
-- MySQL/SQLite compatible migrations and seeders
+* Laravel 12
+* PHP 8.2+
+* Laravel Sanctum
+* Spatie Laravel Permission
+* MySQL (SQLite supported for local testing)
 
 ### Frontend
 
-- React 18
-- TypeScript
-- Vite
-- React Router
-- Tailwind CSS
-- Axios
+* React 18
+* TypeScript
+* Vite
+* React Router
+* Tailwind CSS
+* Axios
 
-## Quick Start
+---
 
-## 1) Backend setup
+## Getting started
+
+### Backend
 
 ```bash
 cd backend
@@ -58,9 +76,9 @@ php artisan migrate --seed
 php artisan serve
 ```
 
-Backend runs by default at `http://127.0.0.1:8000`.
+API runs at: `http://127.0.0.1:8000`
 
-## 2) Frontend setup
+### Frontend
 
 ```bash
 cd client
@@ -68,85 +86,122 @@ npm install
 npm run dev
 ```
 
-Frontend runs by default at `http://localhost:5173`.
+Client runs at: `http://localhost:5173`
 
-## Demo Accounts (Seeded)
+---
 
-- `admin@example.com` / `password`
-- `instructor@example.com` / `password`
-- `student@example.com` / `password`
+## Seeded demo users
 
-## API Overview
+* Admin → `admin@example.com` / `password`
+* Instructor → `instructor@example.com` / `password`
+* Student → `student@example.com` / `password`
 
-Main API routes are in `backend/routes/api.php`.
+---
 
-- Public:
-  - `GET /api/courses`
-  - `GET /api/courses/{slug}`
-- Auth:
-  - `POST /api/register`
-  - `POST /api/login`
-  - `POST /api/logout`
-  - `GET /api/profile`
-  - `PUT /api/profile`
-  - `PATCH /api/profile/password`
-- Learner:
-  - `GET /api/my-courses`
-  - `POST /api/courses/{course}/enroll`
-  - `GET /api/courses/{course}/enrollment`
-  - `GET /api/lessons/{lesson}`
-  - `PATCH /api/lessons/{lesson}/complete`
-- Instructor/Admin:
-  - Course CRUD + publish
-  - Module CRUD
-  - Lesson CRUD
+## API surface
 
-## Frontend Routes
+Routes live in `backend/routes/api.php`.
+
+**Public**
+
+* `GET /api/courses`
+* `GET /api/courses/{slug}`
+
+**Auth**
+
+* `POST /api/register`
+* `POST /api/login`
+* `POST /api/logout`
+* `GET /api/profile`
+* `PUT /api/profile`
+* `PATCH /api/profile/password`
+
+**Student**
+
+* `GET /api/my-courses`
+* `POST /api/courses/{course}/enroll`
+* `GET /api/courses/{course}/enrollment`
+* `GET /api/lessons/{lesson}`
+* `PATCH /api/lessons/{lesson}/complete`
+
+**Instructor/Admin**
+
+* Course CRUD + publish toggle
+* Module CRUD
+* Lesson CRUD
+
+---
+
+## Frontend routing
 
 Defined in `client/src/App.tsx`.
 
-- `/` landing page
-- `/courses` public catalog
-- `/courses/:courseRef` course details
-- `/login`, `/signup`
-- `/my-courses`, `/profile`, `/lessons/:lessonId` (protected)
-- `/instructor/*` (instructor/admin only)
+* `/` – landing
+* `/courses` – catalog
+* `/courses/:courseRef` – course details
+* `/login`, `/signup`
+* `/my-courses`, `/profile`, `/lessons/:lessonId` (authenticated)
+* `/instructor/*` (role-restricted)
 
-## Project Structure
+Route guards rely on the API profile response rather than client-side role assumptions.
 
-```text
-Learning Management System/
-  backend/   # Laravel API, models, controllers, migrations, seeders
-  client/    # React app, routes, pages, API services, UI components
-  Docs/      # supplementary docs
+---
+
+## Project layout
+
 ```
+Learning Management System/
+  backend/   Laravel API (models, policies, controllers, seeders)
+  client/    React + TypeScript app (pages, services, components)
+ 
 
-## Documentation
+---
 
-- Deep technical architecture doc: `APP_ARCHITECTURE.md`
+## Architectural notes
 
-## Scripts
+* Business rules live in the backend (policies, permissions, publish state)
+* The frontend consumes typed DTO-style responses
+* Enrollment and completion are modeled as separate resources to support analytics later
+* Draft content is never exposed through public endpoints
+
+
+
+---
+
+## Useful scripts
 
 ### Backend
 
-- `php artisan migrate --seed`
-- `php artisan serve`
-- `php artisan test`
+```bash
+php artisan migrate --seed
+php artisan serve
+php artisan test
+```
 
 ### Frontend
 
-- `npm run dev`
-- `npm run type-check`
-- `npm run build`
+```bash
+npm run dev
+npm run type-check
+npm run build
+```
 
-## Notes for Production Hardening
+---
 
-- Add CI (type-check + tests + lint)
-- Add rate limiting and stricter API validation policies
-- Add centralized logging/monitoring
-- Add E2E tests for student/instructor/admin journeys
-- Add cloud deployment config (Docker + env templates)
+## Production considerations
+
+Planned improvements for a hosted environment:
+
+* CI pipeline (tests, type checks, linting)
+* API rate limiting and stricter validation layers
+* Centralized logging and error tracking
+* End-to-end tests for each role flow
+* Docker setup with environment templates
+
+---
 
 ## License
 
 MIT
+
+---
