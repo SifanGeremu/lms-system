@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import { AuthProvider } from '@/context/AuthContext'
 import ProtectedRoute from '@/components/auth/ProtectedRoute'
 
@@ -7,6 +7,7 @@ import CourseOverview from '@/pages/CourseOverview'
 import Login from '@/pages/Login'
 import Signup from '@/pages/Signup'
 import Profile from '@/pages/Profile'
+import Landing from '@/pages/Landing'
 import MyCourses from '@/pages/MyCourses'
 import InstructorDrafts from '@/pages/InstructorDrafts'
 import CourseEditor from '@/pages/CourseEditor'
@@ -17,7 +18,7 @@ export default function App() {
   return (
     <AuthProvider>
       <Routes>
-        <Route path="/" element={<Navigate to="/courses" replace />} />
+        <Route path="/" element={<Landing />} />
         <Route path="/courses" element={<Courses />} />
         <Route path="/courses/:courseRef" element={<CourseOverview />} />
 

@@ -1,8 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\CourseModuleController;
+use App\Http\Controllers\EnrollmentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ModuleLessonController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\GetProfileController;
@@ -25,6 +30,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/profile', UpdateProfileController::class);
     Route::patch('/profile/password', UpdatePasswordController::class);
     Route::get('/my-courses', [CourseController::class, 'myCourses']);
+    Route::post('/courses/{course}/enroll', [EnrollmentController::class, 'enroll'])->whereNumber('course');
+    Route::get('/courses/{course}/enrollment', [EnrollmentController::class, 'show'])->whereNumber('course');
+    Route::get('/lessons/{lesson}', [ModuleLessonController::class, 'show'])->whereNumber('lesson');
+    Route::patch('/lessons/{lesson}/complete', [ModuleLessonController::class, 'complete'])->whereNumber('lesson');
 
     Route::middleware('role:instructor|admin')->group(function () {
         Route::post('/courses', [CourseController::class, 'store']);
@@ -33,6 +42,16 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/courses/{id}', [CourseController::class, 'update'])->whereNumber('id');
         Route::delete('/courses/{id}', [CourseController::class, 'destroy'])->whereNumber('id');
         Route::patch('/courses/{id}/publish', [CourseController::class, 'publish'])->whereNumber('id');
+
+        Route::get('/courses/{course}/modules', [CourseModuleController::class, 'index'])->whereNumber('course');
+        Route::post('/courses/{course}/modules', [CourseModuleController::class, 'store'])->whereNumber('course');
+        Route::put('/modules/{module}', [CourseModuleController::class, 'update'])->whereNumber('module');
+        Route::delete('/modules/{module}', [CourseModuleController::class, 'destroy'])->whereNumber('module');
+
+        Route::get('/modules/{module}/lessons', [ModuleLessonController::class, 'index'])->whereNumber('module');
+        Route::post('/modules/{module}/lessons', [ModuleLessonController::class, 'store'])->whereNumber('module');
+        Route::put('/lessons/{lesson}', [ModuleLessonController::class, 'update'])->whereNumber('lesson');
+        Route::delete('/lessons/{lesson}', [ModuleLessonController::class, 'destroy'])->whereNumber('lesson');
     });
 });
 

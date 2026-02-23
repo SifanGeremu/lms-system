@@ -1,20 +1,24 @@
 import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/common/Button";
+import { getPostLoginRoute } from "@/lib/roleRoute";
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, user, hasRole, logout } = useAuth();
+  const isStaff = hasRole(["instructor", "admin"]);
+  const workspacePath = getPostLoginRoute(user?.roles);
+  const workspaceLabel = isStaff ? "Instructor Studio" : "My Courses";
 
   return (
     <div className="min-h-screen bg-background text-foreground">
       <header className="sticky top-0 z-20 border-b border-border bg-background/95 backdrop-blur">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <Link to="/" className="flex items-center gap-2">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
+          <Link to={isAuthenticated ? workspacePath : "/"} className="flex items-center gap-2">
             <span className="grid h-8 w-8 place-items-center rounded-md bg-primary text-primary-foreground font-bold">
-              
+              LH
             </span>
             <span className="font-semibold tracking-tight">
-              Learning Management System
+              LearnHub
             </span>
           </Link>
 
@@ -31,26 +35,14 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             </NavLink>
             {isAuthenticated && (
               <NavLink
-                to="/my-courses"
+                to={workspacePath}
                 className={({ isActive }) =>
                   isActive
                     ? "text-primary font-semibold"
                     : "text-muted-foreground hover:text-foreground"
                 }
               >
-                My Courses
-              </NavLink>
-            )}
-            {isAuthenticated && hasRole(["instructor", "admin"]) && (
-              <NavLink
-                to="/instructor/drafts"
-                className={({ isActive }) =>
-                  isActive
-                    ? "text-primary font-semibold"
-                    : "text-muted-foreground hover:text-foreground"
-                }
-              >
-                Instructor
+                {workspaceLabel}
               </NavLink>
             )}
             {isAuthenticated && (
@@ -79,7 +71,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               </>
             ) : (
               <>
-                <span className="hidden text-sm text-muted-foreground sm:inline">
+                <span className="hidden text-sm text-muted-foreground sm:inline max-w-[140px] truncate">
                   {user?.name}
                 </span>
                 <Button variant="outline" onClick={() => logout()}>
@@ -89,6 +81,36 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             )}
           </div>
         </div>
+        {isAuthenticated && (
+          <div className="border-t border-border/70 px-4 py-2 md:hidden">
+            <div className="mx-auto flex max-w-7xl items-center gap-2 text-sm">
+              <NavLink
+                to="/courses"
+                className={({ isActive }) =>
+                  isActive ? "rounded-full bg-primary px-3 py-1 text-primary-foreground" : "rounded-full px-3 py-1 text-muted-foreground"
+                }
+              >
+                Courses
+              </NavLink>
+              <NavLink
+                to={workspacePath}
+                className={({ isActive }) =>
+                  isActive ? "rounded-full bg-primary px-3 py-1 text-primary-foreground" : "rounded-full px-3 py-1 text-muted-foreground"
+                }
+              >
+                {isStaff ? "Studio" : "My Courses"}
+              </NavLink>
+              <NavLink
+                to="/profile"
+                className={({ isActive }) =>
+                  isActive ? "rounded-full bg-primary px-3 py-1 text-primary-foreground" : "rounded-full px-3 py-1 text-muted-foreground"
+                }
+              >
+                Profile
+              </NavLink>
+            </div>
+          </div>
+        )}
       </header>
 
       <main>{children}</main>

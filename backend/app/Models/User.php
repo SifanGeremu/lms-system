@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Models;
 
@@ -68,4 +69,5 @@ class User extends Authenticatable
         return $this->belongsToMany(Course::class, 'enrollments')
             ->withTimestamps();
     }
+
 }

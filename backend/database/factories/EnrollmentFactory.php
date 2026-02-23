@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Database\Factories;
 
@@ -21,6 +22,9 @@ class EnrollmentFactory extends Factory
         return [
             'user_id' => User::factory(),
             'course_id' => Course::factory(),
+            'enrolled_at' => now(),
+            'progress_percentage' => 0,
+            'completed_at' => null,
         ];
     }
 }

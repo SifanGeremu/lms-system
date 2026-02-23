@@ -2,6 +2,9 @@ import { FormEvent, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { extractMessage } from '@/lib/http'
 import { useAuth } from '@/context/AuthContext'
+import { getPostLoginRoute } from '@/lib/roleRoute'
+import { storage } from '@/lib/storage'
+import { User } from '@/types'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/common/Card'
 import { Input } from '@/components/common/Input'
 import { Button } from '@/components/common/Button'
@@ -21,7 +24,8 @@ export default function Login() {
 
     try {
       await login(email, password)
-      navigate('/my-courses')
+      const authUser = storage.getUser<User>()
+      navigate(getPostLoginRoute(authUser?.roles), { replace: true })
     } catch (err) {
       setError(extractMessage(err))
     } finally {

@@ -7,6 +7,7 @@ export default defineConfig({
         alias: {
             '@': path.resolve(__dirname, './src'),
         },
+        extensions: ['.ts', '.tsx', '.mjs', '.js', '.jsx', '.json'],
     },
     server: {
         port: 5173,
