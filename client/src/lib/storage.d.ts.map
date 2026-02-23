@@ -1,0 +1,1 @@
+{"version":3,"file":"storage.d.ts","sourceRoot":"","sources":["storage.ts"],"names":[],"mappings":"AAGA,eAAO,MAAM,OAAO;gBACN,MAAM,GAAG,IAAI;oBAGT,MAAM,GAAG,IAAI;kBAGf,IAAI;YAGV,CAAC,KAAK,CAAC,GAAG,IAAI;YAUd,CAAC,QAAQ,CAAC,GAAG,IAAI;iBAGZ,IAAI;iBAGJ,IAAI;CAIlB,CAAA"}

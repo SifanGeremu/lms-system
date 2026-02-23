@@ -1,0 +1,1 @@
+{"version":3,"file":"enrollment.api.d.ts","sourceRoot":"","sources":["enrollment.api.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,UAAU,EAAE,gBAAgB,EAAE,MAAM,SAAS,CAAA;AAEtD,eAAO,MAAM,aAAa;qBACD,MAAM,GAAG,OAAO,CAAC,UAAU,CAAC;qBAK5B,MAAM,GAAG,OAAO,CAAC,gBAAgB,CAAC;CAI1D,CAAA"}
